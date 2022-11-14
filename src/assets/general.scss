@@ -1,3 +1,5 @@
+@use './mixins' as *;
+@use './variables' as *;
 $fa-font-path : "./webfonts";
 @import '/node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss';
 @import '/node_modules/@fortawesome/fontawesome-free/scss/brands.scss';
@@ -8,6 +10,12 @@ $fa-font-path : "./webfonts";
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+body{
+    background-color: $bb-background;
+}
+img{
+    max-width: 100%;
 }
 a{
     text-decoration: none;
