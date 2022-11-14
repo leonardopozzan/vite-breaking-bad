@@ -4,8 +4,8 @@
             <img :src="element.img">
         </div>
         <div class="name">{{element.name}}</div>
-        <div>{{element.category}}</div>
-        <div>{{element.status}}</div>
+        <div class="info">{{element.category}}</div>
+        <div class="info">{{element.status}}</div>
     </div>
 </template>
 
@@ -30,6 +30,16 @@
     .img-box{
         height: 250px;
         overflow: hidden;
+    }
+    .name{
+        text-transform: uppercase;
+        color: white;
+        font-size: 1.2rem;
+        font-weight: bold;
+        text-align: center;
+    }
+    .info{
+        color: grey;
     }
 }
 </style>
