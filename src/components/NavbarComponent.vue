@@ -43,9 +43,9 @@ import {store} from '../store';
             store
         }
     },
-    computed:{
+    methods:{
         search(){
-            this.$emit('search');
+            this.$emit('searching');
         },
         reset(){
             store.status = '';

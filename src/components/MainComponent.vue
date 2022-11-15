@@ -1,7 +1,7 @@
 <template>
     <main>
         <div class="container">
-            <NavbarComponent @search="getApi()" />
+            <NavbarComponent @searching="getApi()" />
         </div>
         <div class="p-4 container bg-light">
             <div class="details" :class="{'loading-text' : store.loading}" v-html="store.loading ? `` :`Found ${store.characters.length} Characters`"></div>
@@ -30,14 +30,7 @@ export default {
     data(){
         return{
             store,
-            imgNotFounded:[14,17,39]
-        }
-    },
-    computed:{
-        charactersFiltered(){
-            return store.characters.filter((el)=> {
-                return !this.imgNotFounded.includes(el.char_id) && el.name.includes(store.name) && el.status.includes(store.status)
-            });
+            imgNotFounded:[14,17,39] //array degli id degli elementi senza immagini
         }
     },
     methods:{
@@ -49,15 +42,14 @@ export default {
             }
             //filtro i personaggi anche per nome e stato
             const status = store.status;
-            const name = store.name;
+            const name = store.name.toLocaleLowerCase();
             axios.get('https://www.breakingbadapi.com/api/characters',store.options).then((res)=>{
                 console.log(res.data);
                 setTimeout(()=>{
                     store.loading = false;
                     store.characters = res.data.filter((el)=> {
-                    return !this.imgNotFounded.includes(el.char_id) && el.name.includes(name) && el.status.includes(status)
-                });
-
+                    return !this.imgNotFounded.includes(el.char_id) && !!el.name.toLowerCase().includes(name) && !!el.status.includes(status)
+                    })
                 },2000);
             })
         }
