@@ -4,7 +4,7 @@
             <form class="row gy-2 gx-3 align-items-center" @submit.prevent="search()">
                 <div class="col-auto">
                     <label class="visually-hidden" for="autoSizingInput">Name</label>
-                    <input type="text" class="form-control" id="autoSizingInput" placeholder="Name" v-model="store.name">
+                    <input type="text" class="form-control" id="autoSizingInput" placeholder="Name" v-model.trim="store.name">
                 </div>
                 <div class="col-auto">
                     <label class="visually-hidden" for="autoSizingSelect">Preference</label>
@@ -45,7 +45,7 @@ import {store} from '../store';
     },
     methods:{
         search(){
-            this.$emit('searching');
+            this.$emit('search');
         },
         reset(){
             store.status = '';

@@ -1,7 +1,7 @@
 <template>
     <main>
         <div class="container">
-            <NavbarComponent @searching="getApi()" />
+            <NavbarComponent @search="getApi()" />
         </div>
         <div class="p-4 container bg-light">
             <div class="details" :class="{'loading-text' : store.loading}" v-html="store.loading ? `` :`Found ${store.characters.length} Characters`"></div>
@@ -44,7 +44,7 @@ export default {
             const status = store.status;
             const name = store.name.toLocaleLowerCase();
             axios.get('https://www.breakingbadapi.com/api/characters',store.options).then((res)=>{
-                console.log(res.data);
+                // console.log(res.data);
                 setTimeout(()=>{
                     store.loading = false;
                     store.characters = res.data.filter((el)=> {
