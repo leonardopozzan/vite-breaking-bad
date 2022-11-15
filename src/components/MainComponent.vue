@@ -5,27 +5,28 @@
         </div>
         <div class="p-4 container bg-light">
             <div class="details" v-html="`Found ${store.characters.length} Characters`"></div>
-            <div class="cards" v-if="!store.loading">
-                <CardComponent v-for="(item,i) in store.characters" :key="item.char_id" :element="item" />
-            </div>
-            <div class="loading-animation" v-if="store.loading">
+            <CardsComponent  v-if="!store.loading" />
+            <div class="loading-animation" v-if="store.loading && store.characters.length > 0">
                 <span class="text">Loading</span>
                 <span><i class="fa-solid fa-gear loading-big cog"></i></span>
                 <span><i class="fa-solid fa-gear loading-small cog"></i></span>
+            </div>
+            <div v-if="store.characters.length == 0 && !store.loading">
+                <h1 class="text-center pt-3">Ops! non ho trovato nessun elemento</h1>
             </div>
         </div>
     </main>
 </template>
 
 <script>
-import CardComponent from './CardComponent.vue';
+import CardsComponent from './CardsComponent.vue';
 import NavbarComponent from './NavbarComponent.vue';
 import axios from 'axios';
 import {store} from '../store';
 
 export default {
     name: 'MainComponent',
-    components: { CardComponent, NavbarComponent },
+    components: { CardsComponent, NavbarComponent },
     data(){
         return{
             store,
@@ -78,10 +79,6 @@ main{
         font-weight: bold;
         color: white;
         padding: 0.5rem;
-    }
-    .cards{
-        display: flex;
-        flex-wrap: wrap;
     }
     .loading-animation {
         display: flex;
