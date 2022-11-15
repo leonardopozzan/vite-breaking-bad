@@ -1,14 +1,14 @@
 <template>
     <main>
         <div class="container">
-            <NavbarComponent />
+            <NavbarComponent @search="getApi()" />
         </div>
         <div class="p-4 container bg-light">
-            <div class="details" v-html="`Found ${character.length} Characters`"></div>
-            <div class="cards" v-if="!loading">
-                <CardComponent v-for="(item,i) in character" :key="item.id" :element="item" />
+            <div class="details" v-html="`Found ${store.characters.length} Characters`"></div>
+            <div class="cards" v-if="!store.loading">
+                <CardComponent v-for="(item,i) in store.characters" :key="item.id" :element="item" />
             </div>
-            <div class="loading-animation" v-if="loading">
+            <div class="loading-animation" v-if="store.loading">
                 <span class="text">Loading</span>
                 <span><i class="fa-solid fa-gear loading-big cog"></i></span>
                 <span><i class="fa-solid fa-gear loading-small cog"></i></span>
@@ -21,30 +21,33 @@
 import CardComponent from './CardComponent.vue';
 import NavbarComponent from './NavbarComponent.vue';
 import axios from 'axios';
+import {store} from '../store';
 
     export default {
     name: 'MainComponent',
     components: { CardComponent, NavbarComponent },
     data(){
         return{
-            character: [],
-            loading: false,
-            options: {
-                params:{
-                    category : 'Breaking Bad',
-                    limit : 10
-                }
-            }
+            store
+        }
+    },
+    watch: {
+        params(){
+            console.log('works')
         }
     },
     methods:{
         getApi(){
-            this.loading = true
-            axios.get('https://www.breakingbadapi.com/api/characters',this.options).then((res)=>{
+            store.loading = true;
+            let options = null;
+            if(store.options.params.category){
+                options = {...store.options};
+            }
+            axios.get('https://www.breakingbadapi.com/api/characters',store.options).then((res)=>{
                 console.log(res.data);
                 setTimeout(()=>{
-                    this.loading = false;
-                    this.character = [...res.data];
+                    store.loading = false;
+                    store.characters = [...res.data];
                 },2000);
             })
         }
