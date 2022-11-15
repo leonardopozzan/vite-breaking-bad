@@ -24,7 +24,7 @@
                     </select>
                 </div>
                 <div class="col-auto">
-                    <button type="submit" class="btn btn-dark">Reset</button>
+                    <button type="submit" class="btn btn-dark" @click="reset()">Reset</button>
                 </div>
                 <div class="col-auto">
                     <button type="submit" class="btn btn-dark">Submit</button>
@@ -46,6 +46,12 @@ import {store} from '../store';
     computed:{
         search(){
             this.$emit('search');
+        },
+        reset(){
+            store.status = '';
+            store.name = '';
+            store.options.params.category = '';
+            this.search();
         }
     }
 }

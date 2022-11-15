@@ -6,7 +6,7 @@
         <div class="p-4 container bg-light">
             <div class="details" v-html="`Found ${store.characters.length} Characters`"></div>
             <div class="cards" v-if="!store.loading">
-                <CardComponent v-for="(item,i) in store.characters" :key="item.id" :element="item" />
+                <CardComponent v-for="(item,i) in store.characters" :key="item.char_id" :element="item" />
             </div>
             <div class="loading-animation" v-if="store.loading">
                 <span class="text">Loading</span>
@@ -23,17 +23,20 @@ import NavbarComponent from './NavbarComponent.vue';
 import axios from 'axios';
 import {store} from '../store';
 
-    export default {
+export default {
     name: 'MainComponent',
     components: { CardComponent, NavbarComponent },
     data(){
         return{
-            store
+            store,
+            imgNotFounded:[14,17,39]
         }
     },
-    watch: {
-        params(){
-            console.log('works')
+    computed:{
+        charactersFiltered(){
+            return store.characters.filter((el)=> {
+                return !this.imgNotFounded.includes(el.char_id) && el.name.includes(store.name) && el.status.includes(store.status)
+            });
         }
     },
     methods:{
@@ -43,11 +46,17 @@ import {store} from '../store';
             if(store.options.params.category){
                 options = {...store.options};
             }
+            //filtro i personaggi anche per nome e stato
+            const status = store.status;
+            const name = store.name;
             axios.get('https://www.breakingbadapi.com/api/characters',store.options).then((res)=>{
                 console.log(res.data);
                 setTimeout(()=>{
                     store.loading = false;
-                    store.characters = [...res.data];
+                    store.characters = res.data.filter((el)=> {
+                    return !this.imgNotFounded.includes(el.char_id) && el.name.includes(name) && el.status.includes(status)
+                });
+
                 },2000);
             })
         }
