@@ -4,9 +4,9 @@
             <NavbarComponent @search="getApi()" />
         </div>
         <div class="p-4 container bg-light">
-            <div class="details" v-html="`Found ${store.characters.length} Characters`"></div>
+            <div class="details" :class="{'loading-text' : store.loading}" v-html="store.loading ? `` :`Found ${store.characters.length} Characters`"></div>
             <CardsComponent  v-if="!store.loading" />
-            <div class="loading-animation" v-if="store.loading && store.characters.length > 0">
+            <div class="loading-animation" v-if="store.loading">
                 <span class="text">Loading</span>
                 <span><i class="fa-solid fa-gear loading-big cog"></i></span>
                 <span><i class="fa-solid fa-gear loading-small cog"></i></span>
@@ -79,6 +79,9 @@ main{
         font-weight: bold;
         color: white;
         padding: 0.5rem;
+    }
+    .loading-text::before{
+        content: 'Loading';
     }
     .loading-animation {
         display: flex;
